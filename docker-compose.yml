@@ -1,0 +1,33 @@
+# 로컬 통합 실행: docker compose up --build
+#  - API:      http://localhost:8000/docs
+#  - Frontend: http://localhost:5173
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:////app/backend/storage/parkpick.db}
+      - FRONTEND_URL=http://localhost:5173
+      - BACKEND_URL=http://localhost:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - api-storage:/app/backend/storage
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:8000
+        VITE_USE_MOCK: "false"
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  api-storage:

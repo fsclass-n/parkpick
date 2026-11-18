@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>parkpick | AI 주차관제 및 유도 시스템 프로젝트 안내</title>
+  <meta name="description" content="주차 이동체 영상 데이터 기반 AI 주차관제 및 유도 시스템 parkpick 프로젝트 안내 페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --brand: #2459e0; --ink: #0f172a; --muted: #64748b; --line: #e2e8f0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans KR", system-ui, sans-serif; color: #1e293b; background: #f8fafc; line-height: 1.6; }
+    h1, h2, h3 { font-family: "IBM Plex Sans KR", sans-serif; color: var(--ink); margin: 0; }
+    a { color: var(--brand); text-decoration: none; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    header { background: linear-gradient(135deg, #020617, #142a63 55%, #2459e0); color: #fff; padding: 72px 0 88px; }
+    header h1 { color: #fff; font-size: clamp(30px, 5vw, 48px); line-height: 1.25; }
+    header p { color: #cbd5e1; max-width: 720px; font-size: 17px; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.12); font-size: 13px; color: #d9e5ff; margin-bottom: 20px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn { padding: 12px 18px; border-radius: 12px; font-weight: 700; font-size: 15px; background: #fff; color: var(--brand); }
+    .btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); }
+    section { padding: 56px 0 0; }
+    h2 { font-size: 24px; margin-bottom: 20px; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+    .card h3 { font-size: 18px; margin-bottom: 6px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; font-size: 15px; }
+    th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { background: #f1f5f9; font-size: 13px; color: var(--muted); }
+    .flow { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); counter-reset: step; }
+    .flow .card::before { counter-increment: step; content: "STEP " counter(step); display: block; font-size: 12px; font-weight: 700; color: var(--brand); margin-bottom: 6px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; font-size: 14px; }
+    .legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+    footer { margin-top: 72px; background: #020617; color: #94a3b8; padding: 32px 0; font-size: 13px; }
+    .top { position: fixed; right: 24px; bottom: 24px; width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--brand); color: #fff; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(36,89,224,.35); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <span class="badge">AI 모델 및 K-AI 데이터 분석을 통한 기업 수요 반영 비즈니스 플랫폼 구축</span>
+      <h1>parkpick<br />주차 이동체 영상 데이터 기반<br />AI 주차관제 및 유도 시스템</h1>
+      <p>주차장 CCTV와 AI Hub ‘주차 관련 이동체 인지 영상’ 데이터를 AI 객체 탐지·추적 모델로 분석해 주차면 점유를 실시간 판별하고, 운전자에게는 빈 자리 유도를, 운영사에게는 관제 대시보드를 제공하는 B2B 솔루션입니다.</p>
+      <div class="btns">
+        <a class="btn" href="https://parkpick.onrender.com">서비스 바로가기</a>
+        <a class="btn ghost" href="https://parkpick.netlify.app">Netlify 데모 (Mock)</a>
+        <a class="btn ghost" href="https://parkpick-api.onrender.com/docs">API 문서</a>
+        <a class="btn ghost" href="https://github.com/fsclass-n/parkpick">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>주요 기능</h2>
+      <div class="grid">
+        <div class="card"><h3>실시간 관제</h3><p>층·구역별 주차면 맵과 CCTV 영상 분석(바운딩 박스·추적 ID)을 WebSocket으로 실시간 갱신</p></div>
+        <div class="card"><h3>주차 유도</h3><p>입구에서 가장 가까운 빈 주차면(일반·장애인·전기차) 추천과 진입 경로 안내</p></div>
+        <div class="card"><h3>내 차 찾기</h3><p>번호판 OCR 인식 결과로 차량 번호만 입력하면 주차 위치·경과 시간 조회</p></div>
+        <div class="card"><h3>관리자 · 운영 리포트</h3><p>회원 권한 관리, mAP·인식률·점유율·회전율·혼잡도 통계, Gemini 운영 리포트</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>처리 흐름</h2>
+      <div class="flow">
+        <div class="card"><h3>CCTV 영상 수집</h3><p>RTSP / 샘플 영상</p></div>
+        <div class="card"><h3>이동체 탐지·추적</h3><p>YOLO + ByteTrack</p></div>
+        <div class="card"><h3>점유 판별·OCR</h3><p>ROI 다각형 매칭, EasyOCR</p></div>
+        <div class="card"><h3>관제·유도</h3><p>FastAPI · WebSocket · React</p></div>
+      </div>
+      <p class="legend" style="margin-top:20px">
+        <span><i style="background:#16a34a"></i>빈 자리</span><span><i style="background:#dc2626"></i>점유</span>
+        <span><i style="background:#2563eb"></i>장애인 전용</span><span><i style="background:#06b6d4"></i>전기차 충전</span>
+        <span><i style="background:#eab308"></i>예약/임시</span><span><i style="background:#f97316"></i>이상 이벤트</span>
+      </p>
+    </section>
+
+    <section>
+      <h2>팀 구성</h2>
+      <table>
+        <thead><tr><th>이름</th><th>역할</th><th>주요 담당</th></tr></thead>
+        <tbody>
+          <tr><td>홍기흥 (조장)</td><td>PM / 백엔드 &amp; 인프라</td><td>FastAPI·WebSocket, TiDB, Docker·CI/CD, Render·Netlify 배포</td></tr>
+          <tr><td>박미금</td><td>프런트엔드 &amp; UI/UX</td><td>React·Tailwind v4, 로그인·모바일 GNB, 주차면 맵·대시보드 시각화</td></tr>
+          <tr><td>김모란</td><td>AI 모델링 (Computer Vision)</td><td>K-AI 데이터 전처리, YOLO 학습·평가, ByteTrack, 번호판 OCR</td></tr>
+          <tr><td>이오리</td><td>데이터 분석 &amp; 문서화</td><td>점유율·회전율·혼잡도 분석, Gemini 프롬프트, 산출물·발표자료</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>기술 스택</h2>
+      <table>
+        <tbody>
+          <tr><th>Frontend</th><td>React (Vite), Tailwind CSS v4, Recharts, FontAwesome</td></tr>
+          <tr><th>Backend</th><td>Python 3.11, FastAPI, WebSocket, SQLAlchemy, JWT</td></tr>
+          <tr><th>Database</th><td>TiDB Cloud / SQLite</td></tr>
+          <tr><th>AI / Data</th><td>Ultralytics YOLO, ByteTrack, OpenCV, EasyOCR, NumPy, pandas, Google Gemini API</td></tr>
+          <tr><th>Infra</th><td>Render, Netlify, GitHub Actions, GitHub Pages, Docker Compose</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>테스트 계정</h2>
+      <table>
+        <thead><tr><th>구분</th><th>이메일</th><th>비밀번호</th><th>권한</th></tr></thead>
+        <tbody>
+          <tr><td>일반 사용자</td><td>user@parkpick.com</td><td>User1234!</td><td>관제·유도·내 차 찾기 (차량 12가3456)</td></tr>
+          <tr><td>테스트 관리자</td><td>testadmin@parkpick.com</td><td>Admin1234!</td><td>관리자 화면 읽기 전용</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">데이터 출처: AI Hub(K-AI) ‘주차 관련 이동체 인지 영상’ · 공공데이터포털 &nbsp;|&nbsp; © 2026 parkpick. All rights reserved.</div>
+  </footer>
+  <button class="top" aria-label="최상단으로 이동" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
+</body>
+</html>

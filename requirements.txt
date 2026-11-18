@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+# =============================================================
+# parkpick 통합 Python 라이브러리 목록 (단일 requirements.txt)
+# - [BACKEND] Render(parkpick-api) 배포 시 설치되는 패키지
+# - [AI]      로컬 학습/추론 전용 패키지 (용량이 커서 Render 무료 플랜 빌드에서 제외)
+#             설치: pip install -r requirements.txt 후 아래 [AI] 주석을 해제하거나
+#                   pip install ultralytics==8.3.120 easyocr==1.7.2 opencv-python-headless==4.11.0.86
+# =============================================================
+
+# ---------- [BACKEND] Web / API ----------
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+python-dotenv==1.1.0
+pydantic==2.11.4
+SQLAlchemy==2.0.40
+PyMySQL==1.1.1
+PyJWT==2.10.1
+httpx==0.28.1
+
+# ---------- [BACKEND] Data Processing ----------
+numpy==2.2.5
+pandas==2.2.3
+
+# ---------- [DEV] Test ----------
+pytest==8.3.5
+
+# ---------- [AI] Computer Vision (로컬 전용) ----------
+# ultralytics==8.3.120
+# easyocr==1.7.2
+# opencv-python-headless==4.11.0.86

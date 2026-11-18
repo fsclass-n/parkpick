@@ -1,0 +1,86 @@
+# =============================================================
+# parkpick CI / CD
+# - CI: 백엔드·AI 테스트(pytest), 프런트엔드 빌드 검증
+# - CD: GitHub Pages(프로젝트 안내 페이지) 배포
+# - Render / Netlify 는 Deploy Hook 없이 각 플랫폼의 Git 연동으로 자동 배포됩니다.
+#   · Render: render.yaml autoDeployTrigger=checksPass → 이 워크플로 통과 후 배포
+#   · Netlify: netlify.toml ignore 규칙으로 frontend 변경 시에만 배포
+# =============================================================
+name: CI & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend & AI tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Backend tests
+        working-directory: backend
+        run: python -m pytest -q
+      - name: AI module tests
+        run: python -m pytest -q ai/tests
+
+  frontend:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - name: Build (Render 프런트엔드 설정)
+        run: npm run build
+        env:
+          VITE_USE_MOCK: "false"
+          VITE_API_BASE_URL: https://parkpick-api.onrender.com
+      - name: Build (Netlify Mock 데모 설정)
+        run: npm run build
+        env:
+          VITE_USE_MOCK: "true"
+
+  pages:
+    name: GitHub Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    # 저장소 Settings > Pages > Source 가 'GitHub Actions' 로 설정되기 전에도 CI 결과(Render checksPass)를 막지 않도록 허용
+    continue-on-error: true
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/site
+      - id: deployment
+        uses: actions/deploy-pages@v4

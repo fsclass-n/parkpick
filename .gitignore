@@ -1,0 +1,43 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Env (보안 키 원본은 절대 커밋 금지)
+.env
+.env.*
+!.env.example
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.local
+
+# DB / Storage
+*.db
+*.sqlite3
+backend/storage/
+storage/
+
+# 대용량 데이터·영상·모델 가중치 (클라우드 버킷/별도 저장소에서 관리)
+data/raw/
+data/videos/
+data/datasets/
+*.mp4
+*.avi
+*.mov
+*.pt
+*.pth
+*.onnx
+*.engine
+ai/runs/
+runs/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

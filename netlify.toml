@@ -1,0 +1,18 @@
+# Netlify 프런트엔드 데모: https://parkpick.netlify.app
+# - Netlify 에 GitHub 저장소를 한 번 연결(Import from Git)하면 main push 시 자동 배포됩니다. (Build Hook 미사용)
+# - ignore: frontend/ 또는 netlify.toml 변경이 없으면 빌드를 건너뜁니다. (영역별 개별 배포)
+# - VITE_USE_MOCK=true: 백엔드 없이 브라우저 Mock 데이터로 동작하는 데모
+[build]
+  base = "frontend"
+  command = "npm ci && npm run build"
+  publish = "dist"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../netlify.toml"
+
+[build.environment]
+  NODE_VERSION = "22"
+  VITE_USE_MOCK = "true"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

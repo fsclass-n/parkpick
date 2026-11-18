@@ -1,0 +1,8 @@
+# YOLO 학습 데이터셋 설정 (ai/convert_aihub_labels.py 출력 경로 기준)
+path: ../data/datasets/parkpick
+train: images/train
+val: images/val
+names:
+  0: car
+  1: person
+  2: motorcycle

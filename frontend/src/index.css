@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* 타이포그래피 2종 이원화: 제목용 / 본문용 */
+  --font-heading: "IBM Plex Sans KR", "Noto Sans KR", system-ui, sans-serif;
+  --font-body: "Noto Sans KR", system-ui, -apple-system, sans-serif;
+
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #d9e5ff;
+  --color-brand-200: #bcd1ff;
+  --color-brand-400: #5f8cf7;
+  --color-brand-500: #3a6cf0;
+  --color-brand-600: #2459e0;
+  --color-brand-700: #1c46b8;
+  --color-brand-900: #142a63;
+
+  /* 주차 상태 컬러 시스템 (맵·범례·차트 공통) */
+  --color-st-empty: #16a34a;
+  --color-st-occupied: #dc2626;
+  --color-st-disabled: #2563eb;
+  --color-st-ev: #06b6d4;
+  --color-st-reserved: #eab308;
+  --color-st-alert: #f97316;
+
+  --animate-blink: blink 1s ease-in-out infinite;
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply font-body text-slate-800 bg-slate-50 antialiased; font-size: 16px; }
+  h1, h2, h3, h4 { @apply font-heading text-slate-900 dark:text-white; }
+}
+
+@layer components {
+  /* 폰트 크기 단계 표준화: H1 32 / H2 24 / H3 20 / Body 16 / Caption 13 */
+  .pp-h1 { @apply font-heading font-bold text-[26px] md:text-[32px] leading-tight tracking-tight; }
+  .pp-h2 { @apply font-heading font-bold text-[22px] md:text-[24px] leading-snug; }
+  .pp-h3 { @apply font-heading font-semibold text-[20px] leading-snug; }
+  .pp-caption { @apply text-[13px] text-slate-500 dark:text-slate-400; }
+
+  .container-pp { @apply mx-auto w-full max-w-[1280px] px-4 md:px-6; }
+  .card { @apply rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900; }
+
+  .btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-700; }
+  .btn-outline { @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800; }
+  .btn-ghost { @apply btn text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700; }
+
+  .input { @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-[15px] outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white; }
+  .label { @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300; }
+  .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold; }
+
+  .table-pp { @apply w-full text-left text-sm; }
+  .table-pp th { @apply border-b border-slate-200 bg-slate-50 px-4 py-3 text-[13px] font-semibold text-slate-500 dark:border-slate-800 dark:bg-slate-800/50; }
+  .table-pp td { @apply border-b border-slate-100 px-4 py-3 dark:border-slate-800; }
+}
