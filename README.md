@@ -37,15 +37,14 @@
 
 ```
 parkpick/
-├── backend/            # FastAPI API 서버 (app/, tests/)
-├── frontend/           # React + Vite + Tailwind v4
-├── ai/                 # 탐지·추적·점유 판별·OCR·마스킹·라벨 변환·학습 스크립트
+├── backend/            # FastAPI API 서버 (app/, tests/, requirements.txt, Dockerfile)
+├── frontend/           # React + Vite + Tailwind v4 (Dockerfile)
+├── ai/                 # 탐지·추적·점유 판별·OCR·마스킹·라벨 변환·학습 스크립트 (requirements.txt)
 ├── data/               # 샘플 ROI·라벨 (대용량 원본은 Git 제외)
 ├── docs/               # md / 프로젝트_진행일지 / 산출물 / pdf / site(GitHub Pages)
 ├── .github/workflows/  # deploy.yml (CI + GitHub Pages)
 ├── render.yaml         # Render Blueprint (API + 프런트엔드)
 ├── netlify.toml        # Netlify 데모 배포 설정
-├── requirements.txt    # Python 통합 라이브러리
 └── docker-compose.yml  # 로컬 통합 실행
 ```
 
@@ -58,7 +57,7 @@ cp .env.example .env
 # 1) 백엔드 (Python 3.11)
 python -m venv .venv
 .venv/Scripts/activate            # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r backend/requirements.txt      # AI 추론/학습: -r ai/requirements.txt
 cd backend && uvicorn app.main:app --reload   # http://localhost:8000/docs
 
 # 2) 프런트엔드
@@ -83,7 +82,7 @@ docker compose up --build
 
 | 대상 | 방식 | 영역별 개별 배포 조건 |
 |---|---|---|
-| Render API / 프런트엔드 | `render.yaml` Blueprint, `autoDeployTrigger: checksPass` (GitHub Actions CI 통과 후 배포) | `buildFilter` — `backend/**`, `requirements.txt` / `rootDir: frontend` |
+| Render API / 프런트엔드 | `render.yaml` Blueprint, `autoDeployTrigger: checksPass` (GitHub Actions CI 통과 후 배포) | `rootDir: backend` / `rootDir: frontend`, `buildFilter` — `backend/**` / `frontend/**` |
 | Netlify 데모 | `netlify.toml` Git 연동 | `ignore` — `frontend/`, `netlify.toml` 변경 시에만 빌드 |
 | GitHub Pages | `.github/workflows/deploy.yml` | main push 시 `docs/site` 배포 |
 

@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+# =============================================================
+# parkpick AI 파이프라인 라이브러리 목록 (로컬 학습/추론 전용)
+# - 용량이 커서 Render 백엔드 배포에는 포함하지 않음
+# - ai/tests 는 표준 라이브러리만 사용 (pytest 는 backend/requirements.txt)
+# =============================================================
+
+# ---------- API 연동 (pipeline.py) ----------
+httpx==0.28.1
+python-dotenv==1.1.0
+
+# ---------- Computer Vision ----------
+ultralytics==8.3.120
+easyocr==1.7.2
+opencv-python-headless==4.11.0.86

@@ -3,8 +3,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-ROOT_DIR = Path(__file__).resolve().parents[2]
-BACKEND_DIR = ROOT_DIR / "backend"
+BACKEND_DIR = Path(__file__).resolve().parents[1]
+ROOT_DIR = BACKEND_DIR.parent  # 저장소 루트 (단일 .env 위치)
 load_dotenv(ROOT_DIR / ".env")
 
 

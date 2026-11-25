@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+# =============================================================
+# parkpick 백엔드(FastAPI) 라이브러리 목록
+# - Render(parkpick-api) 배포 및 로컬 백엔드 실행 시 설치
+# - AI 학습/추론 전용 패키지는 ai/requirements.txt 로 분리
+# =============================================================
+
+# ---------- Web / API ----------
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+python-dotenv==1.1.0
+pydantic==2.11.4
+SQLAlchemy==2.0.40
+PyMySQL==1.1.1
+PyJWT==2.10.1
+httpx==0.28.1
+
+# ---------- Data Processing ----------
+numpy==2.2.5
+pandas==2.2.3
+
+# ---------- Test ----------
+pytest==8.3.5
