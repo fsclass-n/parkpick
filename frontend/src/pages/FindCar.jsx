@@ -4,7 +4,7 @@ import { useApi } from '../lib/useApi'
 import { elapsed, formatDateTime } from '../lib/format'
 import { useAuth } from '../context/AuthContext'
 import ParkingMap from '../components/ParkingMap'
-import { PageHeader } from '../components/ui'
+import { PageHero } from '../components/ui'
 
 export default function FindCar() {
   const { user } = useAuth()
@@ -37,8 +37,9 @@ export default function FindCar() {
   const floorSpaces = useMemo(() => spaces.data || [], [spaces.data])
 
   return (
-    <div className="container-pp py-10">
-      <PageHeader icon="fa-magnifying-glass-location" title="내 차 찾기" desc="CCTV 번호판 인식(OCR) 결과를 기반으로 차량의 주차 위치를 찾아드립니다." />
+    <>
+      <PageHero image="aerialYellow" eyebrow="FIND MY CAR · OCR" icon="fa-magnifying-glass-location" title="내 차 찾기" desc="CCTV 번호판 인식(OCR) 결과를 기반으로 차량의 주차 위치를 찾아드립니다." />
+      <div className="container-pp py-10">
       <form onSubmit={search} className="card flex flex-col gap-3 md:flex-row md:items-end">
         <div className="flex-1">
           <label className="label" htmlFor="plate">차량 번호</label>
@@ -75,6 +76,7 @@ export default function FindCar() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }

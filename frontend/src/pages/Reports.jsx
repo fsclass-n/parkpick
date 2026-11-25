@@ -2,7 +2,7 @@ import { useApi } from '../lib/useApi'
 import { pct } from '../lib/format'
 import { DailyTurnoverChart, HourlyTrafficChart, OccupancyDonut } from '../components/Charts'
 import ReportPanel from '../components/ReportPanel'
-import { ErrorBox, KpiCard, PageHeader, Spinner } from '../components/ui'
+import { ErrorBox, KpiCard, PageHero, Spinner } from '../components/ui'
 
 export default function Reports() {
   const { data, error, loading, reload } = useApi('/api/reports/stats')
@@ -10,8 +10,9 @@ export default function Reports() {
   const peak = data?.traffic.hourly.reduce((a, b) => (b.congestion > a.congestion ? b : a), { congestion: 0, hour: 0 })
 
   return (
-    <div className="container-pp py-10">
-      <PageHeader icon="fa-chart-line" title="운영 리포트" desc="pandas·NumPy로 분석한 최근 7일 주차 운영 지표와 Gemini 기반 운영 리포트입니다." />
+    <>
+      <PageHero image="analytics" eyebrow="OPERATION REPORT" icon="fa-chart-line" title="운영 리포트" desc="pandas·NumPy로 분석한 최근 7일 주차 운영 지표와 Gemini 기반 운영 리포트입니다." />
+      <div className="container-pp py-10">
       {loading || !data ? <Spinner /> : (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -44,6 +45,7 @@ export default function Reports() {
         </>
       )}
       <div className="mt-6"><ReportPanel /></div>
-    </div>
+      </div>
+    </>
   )
 }

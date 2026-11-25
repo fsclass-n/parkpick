@@ -1,5 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom'
-import { PageHeader } from '../components/ui'
+import { PageHero } from '../components/ui'
 
 const POLICIES = {
   terms: {
@@ -36,8 +36,9 @@ export default function Policy() {
   const policy = POLICIES[kind]
   if (!policy) return <Navigate to="/" replace />
   return (
-    <div className="container-pp max-w-3xl py-10">
-      <PageHeader icon="fa-file-shield" title={policy.title} desc="시행일: 2026년 11월 18일" />
+    <>
+      <PageHero image="garageDark" eyebrow="POLICY" icon="fa-file-shield" title={policy.title} desc="시행일: 2026년 11월 18일" />
+      <div className="container-pp max-w-3xl py-10">
       <div className="card space-y-6">
         {policy.sections.map(([title, body]) => (
           <section key={title}>
@@ -46,6 +47,7 @@ export default function Policy() {
           </section>
         ))}
       </div>
-    </div>
+      </div>
+    </>
   )
 }

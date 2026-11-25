@@ -5,7 +5,7 @@ import { ROLE_LABEL } from '../lib/config'
 import { formatDateTime } from '../lib/format'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
-import { PageHeader } from '../components/ui'
+import { PageHero } from '../components/ui'
 
 const PROVIDER = { local: '이메일', google: 'Google', naver: '네이버', kakao: '카카오' }
 
@@ -22,8 +22,9 @@ export default function MyPage() {
   })
 
   return (
-    <div className="container-pp py-10">
-      <PageHeader icon="fa-user" title="마이페이지" desc="계정 정보와 등록 차량을 관리합니다." />
+    <>
+      <PageHero image="cityStreet" eyebrow="MY ACCOUNT" icon="fa-user" title="마이페이지" desc="계정 정보와 등록 차량을 관리합니다." />
+      <div className="container-pp py-10">
       <div className="grid gap-6 lg:grid-cols-12">
         <div className="card lg:col-span-4">
           <div className="flex items-center gap-4">
@@ -65,6 +66,7 @@ export default function MyPage() {
           </div>
         </form>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

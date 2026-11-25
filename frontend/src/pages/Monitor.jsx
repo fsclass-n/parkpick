@@ -6,7 +6,7 @@ import { elapsed, formatDateTime, pct } from '../lib/format'
 import { useAuth } from '../context/AuthContext'
 import ParkingMap from '../components/ParkingMap'
 import VideoAnalysisView from '../components/VideoAnalysisView'
-import { ErrorBox, KpiCard, PageHeader, SEVERITY, Spinner, StatusLegend } from '../components/ui'
+import { ErrorBox, KpiCard, PageHero, SEVERITY, Spinner, StatusLegend } from '../components/ui'
 
 const THEME_KEY = 'parkpick.monitor.dark'
 
@@ -33,8 +33,8 @@ export default function Monitor() {
 
   // 다크 테마일 때 페이지 하단 여백까지 어둡게 유지
   useEffect(() => {
-    document.body.classList.toggle('bg-slate-950', dark)
-    return () => document.body.classList.remove('bg-slate-950')
+    document.body.classList.toggle('bg-ink-950', dark)
+    return () => { document.body.classList.remove('bg-ink-950') }
   }, [dark])
 
   const toggleTheme = () => {
@@ -55,16 +55,16 @@ export default function Monitor() {
 
   return (
     <div className={dark ? 'dark' : ''}>
-      <div className="min-h-screen bg-slate-50 py-10 transition-colors dark:bg-slate-950">
-        <div className="container-pp">
-          <PageHeader icon="fa-display" title="실시간 관제" desc={lot.data ? `${lot.data.name} · ${lot.data.address}` : '주차장 정보를 불러오는 중'}>
+      <div className="min-h-screen bg-slate-50 pb-10 transition-colors dark:bg-ink-950">
+        <PageHero image="garageCars" eyebrow="CONTROL ROOM · LIVE" icon="fa-display" title="실시간 관제" desc={lot.data ? `${lot.data.name} · ${lot.data.address}` : '주차장 정보를 불러오는 중'}>
             <span className={`badge ${connected ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-slate-200 text-slate-600'}`}>
               <span className={`h-2 w-2 rounded-full ${connected ? 'animate-blink bg-emerald-500' : 'bg-slate-400'}`} /> {connected ? '실시간 연결됨' : '연결 대기 중'}
             </span>
-            <button className="btn-outline" onClick={toggleTheme}>
+            <button className="btn-glass" onClick={toggleTheme}>
               <i className={`fa-solid ${dark ? 'fa-sun' : 'fa-moon'}`} /> {dark ? '라이트 테마' : '다크 테마'}
             </button>
-          </PageHeader>
+        </PageHero>
+        <div className="container-pp pt-8">
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <KpiCard icon="fa-square-parking" label="전체 점유율" value={pct(stats.rate)} sub={`${stats.occ} / ${stats.total}면`} />

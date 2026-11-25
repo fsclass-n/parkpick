@@ -4,7 +4,7 @@ import { useApi } from '../lib/useApi'
 import { useParkingStream } from '../lib/realtime'
 import { STATUS } from '../lib/config'
 import ParkingMap from '../components/ParkingMap'
-import { ErrorBox, PageHeader, Spinner, StatusLegend } from '../components/ui'
+import { ErrorBox, PageHero, Spinner, StatusLegend } from '../components/ui'
 
 const KINDS = [
   { id: 'normal', label: '일반', icon: 'fa-car' },
@@ -50,8 +50,9 @@ export default function Guide() {
   if (error || lot.error) return <div className="container-pp py-16"><ErrorBox message={(error || lot.error).message} onRetry={() => { setError(null); recommend() }} /></div>
 
   return (
-    <div className="container-pp py-10">
-      <PageHeader icon="fa-route" title="주차 유도" desc="입구에서 가장 가까운 빈 주차면을 실시간으로 추천하고 진입 경로를 안내합니다." />
+    <>
+      <PageHero image="garagePillar" eyebrow="PARKING GUIDANCE" icon="fa-route" title="주차 유도" desc="입구에서 가장 가까운 빈 주차면을 실시간으로 추천하고 진입 경로를 안내합니다." />
+      <div className="container-pp py-10">
       <div className="grid gap-6 lg:grid-cols-12">
         <aside className="space-y-6 lg:col-span-4">
           <div className="card">
@@ -115,6 +116,7 @@ export default function Guide() {
           <p className="pp-caption mt-3"><i className="fa-solid fa-circle-info mr-1" />추천 주차면이 다른 차량에 점유되면 자동으로 다시 추천합니다.</p>
         </section>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

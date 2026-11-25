@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import Logo from './Logo'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
-import { EVENT_LABEL, ROLE_LABEL } from '../lib/config'
+import { EVENT_LABEL, LINKS, ROLE_LABEL } from '../lib/config'
 import { formatDateTime } from '../lib/format'
 import { useParkingStream } from '../lib/realtime'
 
@@ -16,7 +16,35 @@ export const NAV = [
 ]
 
 const navClass = ({ isActive }) =>
-  `rounded-lg px-3 py-2 text-[15px] font-medium transition ${isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`
+  `relative flex h-[72px] items-center gap-2 px-3.5 text-[15px] font-semibold transition after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:rounded-t after:bg-sign-400 after:transition-transform ${isActive ? 'text-slate-900 after:scale-x-100' : 'text-slate-500 after:scale-x-0 hover:text-slate-900'}`
+
+// 헤더 상단 유틸리티 바: 실시간 운영 상태 · 층별 여유 · 고객센터 바로가기
+export function UtilityBar({ summary, connected }) {
+  return (
+    <div className="hidden bg-ink-950 text-[12px] text-slate-400 md:block">
+      <div className="container-pp flex h-9 items-center justify-between gap-4">
+        <p className="flex items-center gap-3">
+          <span className={`flex items-center gap-1.5 font-mono font-bold tracking-wider ${connected ? 'text-led' : 'text-slate-500'}`}>
+            <span className={`h-1.5 w-1.5 rounded-full ${connected ? 'animate-blink bg-led' : 'bg-slate-500'}`} />{connected ? 'ONLINE' : 'CONNECTING'}
+          </span>
+          <span className="text-slate-600">|</span>
+          <span>parkpick 스마트타워 주차장</span>
+          {summary?.by_floor.map((f) => (
+            <span key={f.floor} className="hidden lg:inline">
+              {f.floor} <b className={`pp-num ${f.empty ? 'text-white' : 'text-red-400'}`}>{f.empty ? `${f.empty}면` : '만차'}</b>
+            </span>
+          ))}
+        </p>
+        <nav className="flex items-center gap-4" aria-label="유틸리티 메뉴">
+          <a href="mailto:contact@parkpick.com" className="hover:text-white"><i className="fa-regular fa-envelope mr-1" />도입 문의</a>
+          <Link to="/policy/cctv" className="hover:text-white">영상정보 운영방침</Link>
+          <a href={LINKS.api} target="_blank" rel="noreferrer" className="hover:text-white">API</a>
+          <a href={LINKS.github} target="_blank" rel="noreferrer" className="hover:text-white" aria-label="GitHub"><i className="fa-brands fa-github" /></a>
+        </nav>
+      </div>
+    </div>
+  )
+}
 
 function useOutside(ref, onOutside) {
   useEffect(() => {
@@ -184,18 +212,23 @@ export default function Header() {
   }, [drawer])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur">
-      <div className="container-pp flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-lg">
+      <div className="container-pp flex h-16 items-center justify-between gap-4 md:h-[72px]">
         <Logo />
-        <nav className="hidden items-center gap-1 md:flex" aria-label="주 메뉴">
-          {NAV.map((n) => <NavLink key={n.to} to={n.to} className={navClass}>{n.label}</NavLink>)}
-          {isAdmin && <NavLink to="/admin" className={navClass}>관리자</NavLink>}
+        <nav className="hidden items-center md:flex" aria-label="주 메뉴">
+          {NAV.map((n) => <NavLink key={n.to} to={n.to} className={navClass}><i className={`fa-solid ${n.icon} hidden text-[13px] opacity-60 lg:inline`} />{n.label}</NavLink>)}
+          {isAdmin && <NavLink to="/admin" className={navClass}><i className="fa-solid fa-user-shield hidden text-[13px] opacity-60 lg:inline" />관리자</NavLink>}
         </nav>
         <div className="flex items-center gap-1 md:gap-2">
-          {isTestAdmin && <ReadOnlyBadge className="hidden lg:inline-flex" />}
+          {isTestAdmin && <ReadOnlyBadge className="hidden xl:inline-flex" />}
           {user && <Notifications />}
-          <div className="hidden md:block">
-            {user ? <ProfileMenu /> : <Link to="/login" className="btn-primary !py-2"><i className="fa-solid fa-right-to-bracket" /> 로그인</Link>}
+          <div className="hidden items-center gap-2 md:flex">
+            {user ? <ProfileMenu /> : (
+              <>
+                <Link to="/login" className="btn-ghost !px-3 !py-2">로그인</Link>
+                <Link to="/guide" className="btn bg-ink-900 !py-2 text-white hover:bg-ink-700"><i className="fa-solid fa-location-arrow text-sign-400" /> 빈 자리 찾기</Link>
+              </>
+            )}
           </div>
           <Hamburger open={drawer} onClick={() => setDrawer(!drawer)} />
         </div>

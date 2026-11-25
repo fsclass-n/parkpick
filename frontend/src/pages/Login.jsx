@@ -5,6 +5,7 @@ import { useToast } from '../context/ToastContext'
 import { api, oauthLoginUrl } from '../lib/api'
 import { PASSWORD_RE, USE_MOCK } from '../lib/config'
 import Logo from '../components/Logo'
+import { unsplash } from '../lib/images'
 
 const TEST_ACCOUNTS = {
   user: { email: 'user@parkpick.com', password: 'User1234!', label: '일반 사용자', icon: 'fa-user' },
@@ -42,31 +43,35 @@ function PasswordRules({ value }) {
 
 function BrandPanel() {
   return (
-    <div className="relative hidden overflow-hidden bg-gradient-to-br from-slate-950 via-brand-900 to-brand-600 p-12 text-white lg:flex lg:flex-col lg:justify-between">
-      <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:36px_36px]" />
+    <div className="relative isolate hidden overflow-hidden bg-ink-950 p-12 text-white lg:flex lg:flex-col lg:justify-between">
+      <img src={unsplash('garageDark', 1400)} alt="" aria-hidden className="img-cover absolute inset-0 -z-20 opacity-55" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink-950 via-ink-950/70 to-ink-950/30" />
+      <div className="bg-grid absolute inset-0 -z-10 opacity-30" />
       <div className="relative"><Logo light /></div>
       <div className="relative">
         {/* 브랜드 그래픽: 주차면 그리드 + 탐지 박스 */}
-        <div className="mb-10 grid max-w-md grid-cols-6 gap-2">
-          {Array.from({ length: 18 }, (_, i) => {
-            const occupied = [1, 2, 4, 7, 8, 9, 12, 14, 15, 17].includes(i)
+        <div className="mb-10 grid max-w-sm grid-cols-6 gap-2">
+          {Array.from({ length: 12 }, (_, i) => {
+            const occupied = [1, 2, 4, 7, 8, 10].includes(i)
             return (
-              <div key={i} className={`relative aspect-[3/5] rounded-md border-2 ${occupied ? 'border-red-400/80 bg-red-400/25' : 'border-emerald-300/80 bg-emerald-300/10'}`}>
-                {occupied && <span className="absolute inset-1.5 rounded border border-dashed border-lime-300" />}
-                {i === 5 && <i className="fa-solid fa-location-dot absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-bounce text-brand-200" />}
+              <div key={i} className={`relative aspect-[3/5] rounded-md border-2 backdrop-blur-sm ${occupied ? 'border-red-400/80 bg-red-400/25' : 'border-led/70 bg-led/10'}`}>
+                {occupied && <span className="absolute inset-1.5 rounded border border-dashed border-sign-300" />}
+                {i === 5 && <i className="fa-solid fa-location-dot absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-bounce text-sign-400" />}
               </div>
             )
           })}
         </div>
-        <h2 className="font-heading text-[34px] font-bold leading-tight !text-white">AI가 찾아주는<br />가장 가까운 빈 자리</h2>
-        <p className="mt-4 max-w-md text-slate-200">CCTV 이동체 영상 분석으로 주차면 점유를 실시간 판별하고, 운전자에게는 유도 경로를, 운영자에게는 관제 대시보드를 제공합니다.</p>
+        <p className="pp-eyebrow !text-sign-400"><span className="h-px w-8 bg-sign-400" /> PARKPICK CONTROL CENTER</p>
+        <h2 className="mt-4 font-heading text-[38px] font-extrabold leading-tight !text-white">AI가 찾아주는<br />가장 가까운 빈 자리</h2>
+        <p className="mt-4 max-w-md text-slate-300">CCTV 이동체 영상 분석으로 주차면 점유를 실시간 판별하고, 운전자에게는 유도 경로를, 운영자에게는 관제 대시보드를 제공합니다.</p>
         <ul className="mt-8 space-y-3 text-sm text-slate-200">
           {['YOLO 객체 탐지 · ByteTrack 이동체 추적', '번호판 OCR 기반 내 차 찾기', 'WebSocket 실시간 관제 · Gemini 운영 리포트'].map((t) => (
-            <li key={t}><i className="fa-solid fa-check mr-2 text-emerald-300" />{t}</li>
+            <li key={t}><i className="fa-solid fa-check mr-2 text-led" />{t}</li>
           ))}
         </ul>
       </div>
-      <p className="relative text-[13px] text-slate-400">© 2026 parkpick · AI 주차관제 및 유도 시스템</p>
+      <p className="relative font-mono text-[11px] tracking-wider text-slate-500">© 2026 parkpick · AI PARKING CONTROL</p>
+      <div className="bg-hazard absolute inset-x-0 bottom-0 h-1.5 opacity-90" />
     </div>
   )
 }
@@ -142,15 +147,20 @@ export default function Login() {
           <h1 className="pp-h1">{mode === 'login' ? '로그인' : '회원가입'}</h1>
           <p className="mt-2 text-slate-500">{mode === 'login' ? 'parkpick 관제 플랫폼에 오신 것을 환영합니다.' : '이메일로 parkpick 계정을 만드세요.'}</p>
 
-          <div className="mt-8 grid grid-cols-2 gap-3">
+          <p className="pp-eyebrow mt-8">QUICK DEMO</p>
+          <div className="mt-3 grid grid-cols-2 gap-3">
             {Object.entries(TEST_ACCOUNTS).map(([kind, acc]) => (
               <button key={kind} type="button" disabled={busy} onClick={() => quickLogin(kind)}
-                className={`btn ${kind === 'user' ? 'bg-brand-50 text-brand-700 hover:bg-brand-100' : 'bg-amber-50 text-amber-800 hover:bg-amber-100'}`}>
-                <i className={`fa-solid ${acc.icon}`} /> {acc.label}
+                className={`group flex flex-col items-start gap-2 rounded-2xl border p-4 text-left transition hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 ${kind === 'user' ? 'border-brand-200 bg-brand-50 hover:shadow-brand-600/10' : 'border-amber-300 bg-amber-50 hover:shadow-amber-600/10'}`}>
+                <span className={`grid h-9 w-9 place-items-center rounded-xl text-white ${kind === 'user' ? 'bg-brand-600' : 'bg-amber-500'}`}><i className={`fa-solid ${acc.icon}`} /></span>
+                <span className={`text-[15px] font-bold ${kind === 'user' ? 'text-brand-800' : 'text-amber-900'}`}>{kind === 'user' ? '일반 사용자 체험' : '테스트 관리자 로그인'}</span>
+                <span className={`text-[12px] ${kind === 'user' ? 'text-brand-700/80' : 'text-amber-800/90'}`}>
+                  {kind === 'user' ? '관제·유도·내 차 찾기' : <><i className="fa-solid fa-lock mr-1" />관리자 화면 · 읽기 전용</>}
+                </span>
               </button>
             ))}
           </div>
-          <p className="pp-caption mt-2 text-center">테스트 계정 버튼을 누르면 자동 입력 후 로그인됩니다. (테스트 관리자는 읽기 전용)</p>
+          <p className="pp-caption mt-2">버튼을 누르면 테스트 계정이 자동 입력되어 바로 로그인됩니다.</p>
 
           <form onSubmit={submit} className="mt-8 space-y-4" noValidate>
             {mode === 'signup' && (
@@ -205,7 +215,7 @@ export default function Login() {
 
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white">
             <button type="button" className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-slate-600" onClick={() => setAdminOpen(!adminOpen)}>
-              <span><i className="fa-solid fa-key mr-2 text-slate-400" />관리자 보안 키로 로그인</span>
+              <span><i className="fa-solid fa-key mr-2 text-slate-400" />실제 관리자 · 보안 키 로그인</span>
               <i className={`fa-solid fa-chevron-down text-xs transition ${adminOpen ? 'rotate-180' : ''}`} />
             </button>
             {adminOpen && (

@@ -1,4 +1,37 @@
+import { Link } from 'react-router-dom'
 import { STATUS } from '../lib/config'
+import { unsplash } from '../lib/images'
+
+/**
+ * 서브 페이지 공통 히어로 배너 (Unsplash 이미지 + 관제 그리드 + 노면 해저드 스트라이프)
+ * image: lib/images.js 의 키 · children: 우측 액션 영역
+ */
+export function PageHero({ image = 'garageCars', eyebrow, icon, title, desc, children }) {
+  return (
+    <section className="relative isolate overflow-hidden bg-ink-950 text-white">
+      <img src={unsplash(image, 1920)} alt="" aria-hidden className="img-cover absolute inset-0 -z-20 opacity-50" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950 via-ink-950/85 to-ink-950/30" />
+      <div className="bg-grid absolute inset-0 -z-10 opacity-40" />
+      <div className="container-pp flex flex-col gap-6 py-12 md:flex-row md:items-end md:justify-between md:py-16">
+        <div className="max-w-2xl">
+          <nav className="mb-5 flex items-center gap-2 text-[13px] text-slate-400" aria-label="현재 위치">
+            <Link to="/" className="hover:text-white"><i className="fa-solid fa-house" /></Link>
+            <i className="fa-solid fa-chevron-right text-[9px]" />
+            <span className="text-slate-200">{title}</span>
+          </nav>
+          {eyebrow && <p className="pp-eyebrow !text-sign-400">{eyebrow}</p>}
+          <h1 className="pp-h1 mt-3 flex items-center gap-3 !text-white">
+            {icon && <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/10 text-lg text-sign-400 ring-1 ring-white/15"><i className={`fa-solid ${icon}`} /></span>}
+            {title}
+          </h1>
+          {desc && <p className="mt-4 text-[16px] leading-relaxed text-slate-300">{desc}</p>}
+        </div>
+        {children && <div className="flex flex-wrap items-center gap-2">{children}</div>}
+      </div>
+      <div className="bg-hazard h-1.5 opacity-90" />
+    </section>
+  )
+}
 
 export function PageHeader({ icon, title, desc, children }) {
   return (
@@ -29,7 +62,7 @@ export function KpiCard({ icon, label, value, sub, tone = 'brand' }) {
       </span>
       <div className="min-w-0">
         <p className="pp-caption">{label}</p>
-        <p className="mt-1 font-heading text-2xl font-bold tabular-nums text-slate-900 dark:text-white">{value}</p>
+        <p className="pp-num mt-1 text-[26px] font-bold text-slate-900 dark:text-white">{value}</p>
         {sub && <p className="pp-caption mt-1 truncate">{sub}</p>}
       </div>
     </div>
