@@ -19,10 +19,10 @@
 
 | 이름 | 역할 | 주요 담당 업무 |
 |---|---|---|
-| 홍기흥 (조장) | PM / 백엔드 & 인프라 | 총괄·일정, FastAPI·WebSocket, TiDB 설계, Docker·CI/CD, Render·Netlify 배포, 외부 API |
-| 박미금 | 프런트엔드 & UI/UX | React·Tailwind v4 화면, 로그인·모바일 GNB, 주차면 맵·관제 대시보드 시각화 |
+| 박미금 (조장) | PM / 프런트엔드 & UI/UX | 총괄·일정, React·Tailwind v4 화면, 로그인·모바일 GNB, 주차면 맵·관제 대시보드 시각화 |
+| 홍기흥 (발표) | 백엔드 & 인프라 | FastAPI·WebSocket, TiDB 설계, Docker·CI/CD, Render·Netlify 배포, 외부 API |
 | 김모란 | AI 모델링 (CV) | K-AI 데이터 전처리·라벨 변환, YOLO 학습·평가, ByteTrack 추적, 번호판 OCR, 점유 판별 |
-| 이오리 | 데이터 분석 & 문서화 | 점유율·회전율·혼잡도 분석, 공공데이터 API, Gemini 프롬프트, 산출물·진행일지·발표자료 |
+| 이오리 | 데이터 분석 & 문서화 | 점유율·회전율·혼잡도 분석, 공공데이터 API, Gemini 프롬프트, 산출물·진행일지 |
 
 ## 🛠️ 기술 스택
 

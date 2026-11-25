@@ -4,7 +4,7 @@ import { NAV } from './Header'
 import { LINKS } from '../lib/config'
 import { unsplash } from '../lib/images'
 
-const TEAM = ['홍기흥 (조장)', '박미금', '김모란', '이오리']
+const TEAM = ['박미금 (조장)', '홍기흥', '김모란', '이오리']
 const SNS = [['fa-instagram', 'Instagram'], ['fa-youtube', 'YouTube'], ['fa-linkedin-in', 'LinkedIn'], ['fa-github', 'GitHub', LINKS.github]]
 
 export default function Footer() {
